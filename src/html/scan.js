@@ -749,6 +749,12 @@ function setupNetwork(event) {
 _('reset-model').addEventListener('click', callback('Reset Model Settings', 'An error occurred reseting model settings', '/reset?model', null));
 @@end
 _('reset-options').addEventListener('click', callback('Reset Runtime Options', 'An error occurred reseting runtime options', '/reset?options', null));
+_('factory-reset').addEventListener('click', function(e) {
+  e.preventDefault();
+  if (confirm('WARNING: This will permanently delete ALL settings. Continue?')) {
+    callback('Factory Reset', 'An error occurred performing factory reset', '/reset?all', null)(e);
+  }
+});
 
 _('sethome').addEventListener('submit', setupNetwork);
 _('connect').addEventListener('click', callback('Connect to Home Network', 'An error occurred connecting to the Home network', '/connect', null));
