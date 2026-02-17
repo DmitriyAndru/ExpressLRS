@@ -241,13 +241,15 @@ static void HandleReboot(AsyncWebServerRequest *request)
 
 static void HandleReset(AsyncWebServerRequest *request)
 {
-  if (request->hasArg("hardware")) {
+  bool resetAll = request->hasArg("all");
+  
+  if (resetAll || request->hasArg("hardware")) {
     SPIFFS.remove("/hardware.json");
   }
-  if (request->hasArg("options")) {
+  if (resetAll || request->hasArg("options")) {
     SPIFFS.remove("/options.json");
   }
-  if (request->hasArg("model") || request->hasArg("config")) {
+  if (resetAll || request->hasArg("model") || request->hasArg("config")) {
     config.SetDefaults(true);
   }
   AsyncWebServerResponse *response = request->beginResponse(200, "application/json", "Reset complete, rebooting...");
